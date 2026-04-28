@@ -1,0 +1,23 @@
+CREATE TABLE formula (
+    formula_id TEXT PRIMARY KEY,
+    canonical_name TEXT NOT NULL,
+    molecular_formula_hill TEXT,
+    molecular_weight NUMERIC,
+    molar_vol NUMERIC,
+    SMILES TEXT,
+    InChI TEXT,
+    boiling_point NUMERIC,
+    flash_point NUMERIC,
+    vapour_pressure_min_20C NUMERIC,
+    vapour_pressure_max NUMERIC,
+    tlv_ppm NUMERIC,
+    liquid_density_at_20C NUMERIC,
+    water_solubility NUMERIC,
+    water_solubility_boolean BOOLEAN,
+    logP_min NUMERIC,
+    logP_max NUMERIC,
+    viscosity_cP_at_20C NUMERIC,
+    notes TEXT,
+    standard_data_source TEXT,
+    variant TEXT
+);
