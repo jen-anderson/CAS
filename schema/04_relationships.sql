@@ -1,6 +1,6 @@
 CREATE TABLE hazard_pcode (
-    hazard_id TEXT REFERENCES hazard_code(hazard_id),
-    pcode_id TEXT REFERENCES p_code(pcode_id),
+    hazard_id TEXT,
+    pcode_id TEXT,
     PRIMARY KEY (hazard_id, pcode_id),
 
     FOREIGN KEY (hazard_id)
@@ -15,8 +15,8 @@ CREATE TABLE hazard_pcode (
 );
 
 CREATE TABLE pcode_group_map (
-    group_id TEXT REFERENCES pcode_group(group_id),
-    pcode_id TEXT REFERENCES p_code(pcode_id),
+    group_id TEXT,
+    pcode_id TEXT,
     PRIMARY KEY (group_id, pcode_id),
 
     FOREIGN KEY (group_id)
@@ -31,8 +31,8 @@ CREATE TABLE pcode_group_map (
 );
 
 CREATE TABLE solvent_reference (
-    solvent_id TEXT REFERENCES solvent(solvent_id) ON DELETE CASCADE,
-    reference_id TEXT REFERENCES reference(reference_id) ON DELETE CASCADE,
+    solvent_id TEXT,
+    reference_id TEXT,
     PRIMARY KEY (solvent_id, reference_id),
 
     FOREIGN KEY (solvent_id)
@@ -47,8 +47,8 @@ CREATE TABLE solvent_reference (
 );
 
 CREATE TABLE alias_reference (
-    alias_id TEXT REFERENCES alias(alias_id),
-    reference_id TEXT REFERENCES reference(reference_id),
+    alias_id TEXT,
+    reference_id,
     PRIMARY KEY (alias_id, reference_id),
 
        FOREIGN KEY (alias_id)
@@ -73,7 +73,23 @@ CREATE TABLE formula_hazard (
         ON UPDATE RESTRICT,
 
     FOREIGN KEY (hazard_id)
-        REFERENCES hazard(hazard_id)
+        REFERENCES hazard_code(hazard_id)
+        ON DELETE CASCADE
+        ON UPDATE RESTRICT
+);
+
+CREATE TABLE solvent_hazard (
+    solvent_id TEXT,
+    hazard_id TEXT,
+    PRIMARY KEY (solvent_id, hazard_id),
+
+    FOREIGN KEY (solvent_id)
+        REFERENCES solvent(solvent_id)
+        ON DELETE CASCADE
+        ON UPDATE RESTRICT,
+
+    FOREIGN KEY (hazard_id)
+        REFERENCES hazard_code(hazard_id)
         ON DELETE CASCADE
         ON UPDATE RESTRICT
 );

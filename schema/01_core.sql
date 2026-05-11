@@ -3,7 +3,7 @@ CREATE TABLE solvent (
     canonical_name TEXT,
     cas_number TEXT,
     refchem_id TEXT,
-    is_mixture BOOLEAN,
+    is_mixture BOOLEAN DEFAULT FALSE,
     note TEXT,
 
     
@@ -12,8 +12,8 @@ CREATE TABLE solvent (
 );
 
 CREATE TABLE solvent_formula (
-    solvent_id TEXT REFERENCES solvent(solvent_id),
-    formula_id TEXT REFERENCES formula(formula_id),
+    solvent_id TEXT,
+    formula_id TEXT,
     fraction NUMERIC,       -- optional: fraction by mass/volume
     PRIMARY KEY (solvent_id, formula_id),
 
@@ -35,20 +35,20 @@ CREATE TABLE reference (
     url TEXT,
     publisher TEXT,
     jurisdiction TEXT,
-    date_accessed DATE
+    date_published DATE
 );
 
 CREATE TABLE alias (
     alias_id TEXT PRIMARY KEY,
-    solvent_id TEXT,
-    alias_name TEXT,
-    alias_type TEXT,
+    solvent_id TEXT NOT NULL,
+    alias_name TEXT NOT NULL,
+    alias_type TEXT CHECK (
+      alias_type IN ('IUPAC', 'common', 'trade', 'abbreviation')),
     UNIQUE (solvent_id, alias_name),
-    FOREIGN KEY (solvent_id) REFERENCES solvent(solvent_id)
-
+  
     FOREIGN KEY (solvent_id)
         REFERENCES solvent(solvent_id)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
         ON UPDATE RESTRICT
 );
 

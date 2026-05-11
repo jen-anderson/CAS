@@ -1,0 +1,14 @@
+INSERT INTO property_type (property_code, property_name, default_unit) VALUES
+('HANSEN_D', 'hansen_dispersion_parameter', 'MPa^0.5'),
+('HANSEN_P', 'hansen_polarity_parameter', 'MPa^0.5'),
+('HANSEN_H', 'hansen_hydrogen_bonding_parameter', 'MPa^0.5'),
+
+('BP', 'boiling_point', '°C'),
+('FP', 'flash_point', '°C'),
+('VP', 'vapour_pressure', 'mmHg'),
+
+('DENSITY', 'liquid_density', 'g/cm3'),
+('SOLUBILITY_WATER', 'water_solubility', 'g/L'),
+
+('LOGP', 'octanol_water_partition_coefficient', NULL),
+('VISCOSITY', 'viscosity', 'cP');
