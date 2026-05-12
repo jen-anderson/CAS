@@ -1,34 +1,34 @@
-solvent_id,canonical_name,cas_number,refchem_id,is_mixture,note
-SOLV-00001,propanone,67-64-1,6608,FALSE,
-SOLV-00002,benzene,71-43-2,6619,FALSE,
-SOLV-00003,benzyl alcohol,100-51-6,6391,FALSE,
-SOLV-00004,n-butyl alcohol,71-36-3,6600,FALSE,"eye irritant, ototoxic=hearing damage"
-SOLV-00005,2-ethoxyethanol,110-80-5,86840,FALSE,
-SOLV-00006,2-ethoxyethyl acetate,111-15-9,596630,FALSE,
-SOLV-00007,trichloromethane,67-66-3,6629,FALSE,
-SOLV-00008,cyclohexane,110-82-7,6634,FALSE,
-SOLV-00009,cyclohexanone,108-94-1,129639,FALSE,
-SOLV-00010,diacetone alcohol,123-42-2,5741,FALSE,
-SOLV-00011,"1,2 dichloroethane",107-06-2,71863,FALSE,
-SOLV-00012,"N,N-dimethylformamide",68-12-2,6648,FALSE,
-SOLV-00013,ethanol,64-17-5,60,FALSE,
-SOLV-00014,ethyl acetate,141-78-6,6637,FALSE,
-SOLV-00015,n-heptane,142-82-5,6645,FALSE,"Environmental Hazard"
-SOLV-00016,n-hexane,110-54-3,6658,FALSE,"Environmental Hazard"
-SOLV-00017,isoamyl acetate,123-92-2,5908,FALSE,
-SOLV-00018,isopropanol,67-63-0,6650,FALSE,
-SOLV-00019,methanol,67-56-1,100,FALSE,"Acute toxic"
-SOLV-00020,methyl isobutyl ketone,108-10-1,6022,FALSE,
-SOLV-00021,dichloromethane,75-09-2,6698,FALSE,
-SOLV-00022,methylethylketone,78-93-3,6655,FALSE,
-SOLV-00023,mineral spirits,8052-41-3,4726,TRUE,"Stoddard solvent"
-SOLV-00024,n-octane,111-65-9,6664,FALSE,"Environmental hazard"
-SOLV-00025,1-propanol,71-23-8,6601,FALSE,
-SOLV-00026,Pyridine,110-86-1,53624,FALSE,
-SOLV-00027,tetrahydrofuran,109-99-9,932807,FALSE,
-SOLV-00028,toluene,108-88-3,6695,FALSE,
-SOLV-00029,1-1-1-trichloromethane,71-55-6,70852,FALSE,
-SOLV-00030,turpentine,8006-64-2,933658,TRUE,"No clear record on pubchem"
-SOLV-00031,petroleum spirit,8032-32-4,,TRUE,"VM&P Naphtha is a refined petroleum solvent predominantly C7-C11 which is typically 55% paraffins, 30% monocycloparaffins, 2% dicycloparaffins & 12% alkylbenzenes."
-SOLV-00032,dihydrogen oxide,7732-18-5,,FALSE,
-SOLV-00033,xylene,,71,TRUE,"3 possible isomers, m-xylene, o-xylene, p-xylene and mixed xylene [95-47-6][108-38-3][106-42-3][1330-20-7]"
+INSERT INTO solvent(solvent_id, canonical_name, cas_number, refchem_id, is_mixture, note) VALUES
+('SOLV-00001','propanone','67-64-1',6608,FALSE,NULL),
+('SOLV-00002','benzene','71-43-2',6619,FALSE,NULL),
+('SOLV-00003','benzyl alcohol','100-51-6',6391,FALSE,NULL),
+('SOLV-00004','n-butyl alcohol','71-36-3',6600,FALSE,'eye irritant, ototoxic=hearing damage'),
+('SOLV-00005','2-ethoxyethanol','110-80-5',86840,FALSE,NULL),
+('SOLV-00006','2-ethoxyethyl acetate','111-15-9',596630,FALSE,NULL),
+('SOLV-00007','trichloromethane','67-66-3',6629,FALSE,NULL),
+('SOLV-00008','cyclohexane','110-82-7',6634,FALSE,NULL),
+('SOLV-00009','cyclohexanone','108-94-1',129639,FALSE,NULL),
+('SOLV-00010','diacetone alcohol','123-42-2',5741,FALSE,NULL),
+('SOLV-00011','1,2 dichloroethane','107-06-2',71863,FALSE,NULL),
+('SOLV-00012','N,N-dimethylformamide','68-12-2',6648,FALSE,NULL),
+('SOLV-00013','ethanol','64-17-5',60,FALSE,NULL),
+('SOLV-00014','ethyl acetate','141-78-6',6637,FALSE,NULL),
+('SOLV-00015','n-heptane','142-82-5',6645,FALSE,'Environmental Hazard'),
+('SOLV-00016','n-hexane','110-54-3',6658,FALSE,'Environmental Hazard'),
+('SOLV-00017','isoamyl acetate','123-92-2',5908,FALSE,NULL),
+('SOLV-00018','isopropanol','67-63-0',6650,FALSE,NULL),
+('SOLV-00019','methanol','67-56-1',100,FALSE,'Acute toxic'),
+('SOLV-00020','methyl isobutyl ketone','108-10-1',6022,FALSE,NULL),
+('SOLV-00021','dichloromethane','75-09-2',6698,FALSE,NULL),
+('SOLV-00022','methylethylketone','78-93-3',6655,FALSE,NULL),
+('SOLV-00023','mineral spirits','8052-41-3',4726,TRUE,'Stoddard solvent'),
+('SOLV-00024','n-octane','111-65-9',6664,FALSE,'Environmental hazard'),
+('SOLV-00025','1-propanol','71-23-8',6601,FALSE,NULL),
+('SOLV-00026','Pyridine','110-86-1',53624,FALSE,NULL),
+('SOLV-00027','tetrahydrofuran','109-99-9',932807,FALSE,NULL),
+('SOLV-00028','toluene','108-88-3',6695,FALSE,NULL),
+('SOLV-00029','1-1-1-trichloromethane','71-55-6',70852,FALSE,NULL),
+('SOLV-00030','turpentine','8006-64-2',933658,TRUE,'No clear record on pubchem'),
+('SOLV-00031','petroleum spirit','8032-32-4',NULL,TRUE,'VM&P Naphtha is a refined petroleum solvent predominantly C7-C11 which is typically 55% paraffins, 30% monocycloparaffins, 2% dicycloparaffins & 12% alkylbenzenes.'),
+('SOLV-00032','dihydrogen oxide','7732-18-5',NULL,FALSE,NULL),
+('SOLV-00033','xylene',NULL,71,TRUE,'3 possible isomers, m-xylene, o-xylene, p-xylene and mixed xylene [95-47-6][108-38-3][106-42-3][1330-20-7]');

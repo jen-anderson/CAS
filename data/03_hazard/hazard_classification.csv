@@ -1,44 +1,36 @@
-classification_id,hazard_id,hazard_class,category,signal_word,
-HCL-00001,HAZ-00012,Flammable liquids,Category 2,Danger,
-HCL-00002,HAZ-00013,Flammable liquids,Category 3,Warning,
-HCL-00003,HAZ-00035,Acute toxicity,oral,Category 3,Danger,
-HCL-00004,HAZ-00036,Acute toxicity,oral,Category 4,Warning,
-HCL-00005,HAZ-00038,Aspiration hazard,Category 1,Danger,
-HCL-00006,HAZ-00041,Acute toxicity,dermal,Category 3,Danger,
-HCL-00007,HAZ-00042,Acute toxicity,dermal,Category 4,Warning,
-HCL-00008,HAZ-00045,Skin corrosion/irritation,Category 2,Warning,
-HCL-00009,HAZ-00046,Skin corrosion/irritation,Category 3,Warning,
-HCL-00010,HAZ-00047,Sensitisation, Skin,Category 1,Warning,
-HCL-00011,HAZ-00048,Serious eye damage/eye irritation,Category 1,Danger,
-HCL-00012,HAZ-00049,Serious eye damage/eye irritation,Category 2A,Warning,
-HCL-00013,HAZ-00052,Acute toxicity,inhalation,Category 3,Danger,
-HCL-00014,HAZ-00053,Acute toxicity,inhalation,Category 4,Warning,
-"HCL-00015,HAZ-00056,Specific target organ toxicity,
-single exposure; Respiratory tract irritation,Category 3,Warning,"
-"HCL-00016,HAZ-00057,Specific target organ
-toxicity,single exposure;
-Narcotic effects,Category 3,Warning,"
-HCL-00017,HAZ-00058,Germ cell mutagenicity,Category 1A,Danger,
-HCL-00018,HAZ-00058,Germ cell mutagenicity,Category 1B,Danger,
-HCL-00019,HAZ-00060,Carcinogenicity,Category 1A,Danger,
-HCL-00020,HAZ-00060,Carcinogenicity,Category 1B,Danger,
-HCL-00021,HAZ-00061,Carcinogenicity,Category 2,Warning,
-HCL-00022,HAZ-00062,Reproductive toxicity,Category 1A,Danger,
-HCL-00023,HAZ-00062,Reproductive toxicity,Category 1B,Danger,
-HCL-00024,HAZ-00063,Reproductive toxicity,Category 2,Warning,
-HCL-00025,HAZ-00065,Specific target organ toxicity, single exposure,Category 1,Danger,
-HCL-00026,HAZ-00067,Specific target organ toxicity, repeated exposure,Category 1,Danger,
-HCL-00027,HAZ-00068,Specific target organ toxicity, repeated exposure,Category 2,Warning,
-"HCL-00028,HAZ-00069,Hazardous to the aquatic
-environment, acute
-hazard,Category 1,Warning,"
-"HCL-00029,HAZ-00071,Hazardous to the aquatic
-environment, acute
-hazard,Category 3,"
-"HCL-00030,HAZ-00072,Hazardous to the aquatic
-environment, long-term hazard,Category 1,Warning,"
-"HCL-00031,HAZ-00073,Hazardous to the aquatic
-environment, long-term hazard,Category 2,"
-"HCL-00032,HAZ-00074,Hazardous to the aquatic
-environment, long-term hazard,Category 3,"
-HCL-00033,HAZ-00076,Hazardous to the ozone layer,Category 1,Warning,
+INSERT INTO hazard_classification(
+    classification_id, hazard_id, hazard_class, category, signal_word
+) VALUES
+('HCL-00001','HAZ-00012','Flammable liquids','Category 2','Danger'),
+('HCL-00002','HAZ-00013','Flammable liquids','Category 3','Warning'),
+('HCL-00003','HAZ-00035','Acute toxicity, oral','Category 3','Danger'),
+('HCL-00004','HAZ-00036','Acute toxicity, oral','Category 4','Warning'),
+('HCL-00005','HAZ-00038','Aspiration hazard','Category 1','Danger'),
+('HCL-00006','HAZ-00041','Acute toxicity, dermal','Category 3','Danger'),
+('HCL-00007','HAZ-00042','Acute toxicity, dermal','Category 4','Warning'),
+('HCL-00008','HAZ-00045','Skin corrosion/irritation','Category 2','Warning'),
+('HCL-00009','HAZ-00046','Skin corrosion/irritation','Category 3','Warning'),
+('HCL-00010','HAZ-00047','Sensitisation, Skin','Category 1','Warning'),
+('HCL-00011','HAZ-00048','Serious eye damage/eye irritation','Category 1','Danger'),
+('HCL-00012','HAZ-00049','Serious eye damage/eye irritation','Category 2A','Warning'),
+('HCL-00013','HAZ-00052','Acute toxicity, inhalation','Category 3','Danger'),
+('HCL-00014','HAZ-00053','Acute toxicity, inhalation','Category 4','Warning'),
+('HCL-00015','HAZ-00056','Specific target organ toxicity, single exposure; Respiratory tract irritation','Category 3','Warning'),
+('HCL-00016','HAZ-00057','Specific target organ toxicity, single exposure; Narcotic effects','Category 3','Warning'),
+('HCL-00017','HAZ-00058','Germ cell mutagenicity','Category 1A','Danger'),
+('HCL-00018','HAZ-00058','Germ cell mutagenicity','Category 1B','Danger'),
+('HCL-00019','HAZ-00060','Carcinogenicity','Category 1A','Danger'),
+('HCL-00020','HAZ-00060','Carcinogenicity','Category 1B','Danger'),
+('HCL-00021','HAZ-00061','Carcinogenicity','Category 2','Warning'),
+('HCL-00022','HAZ-00062','Reproductive toxicity','Category 1A','Danger'),
+('HCL-00023','HAZ-00062','Reproductive toxicity','Category 1B','Danger'),
+('HCL-00024','HAZ-00063','Reproductive toxicity','Category 2','Warning'),
+('HCL-00025','HAZ-00065','Specific target organ toxicity, single exposure','Category 1','Danger'),
+('HCL-00026','HAZ-00067','Specific target organ toxicity, repeated exposure','Category 1','Danger'),
+('HCL-00027','HAZ-00068','Specific target organ toxicity, repeated exposure','Category 2','Warning'),
+('HCL-00028','HAZ-00069','Hazardous to the aquatic environment, acute hazard','Category 1','Warning'),
+('HCL-00029','HAZ-00071','Hazardous to the aquatic environment, acute hazard','Category 3',NULL),
+('HCL-00030','HAZ-00072','Hazardous to the aquatic environment, long-term hazard','Category 1','Warning'),
+('HCL-00031','HAZ-00073','Hazardous to the aquatic environment, long-term hazard','Category 2',NULL),
+('HCL-00032','HAZ-00074','Hazardous to the aquatic environment, long-term hazard','Category 3',NULL),
+('HCL-00033','HAZ-00076','Hazardous to the ozone layer','Category 1','Warning');
