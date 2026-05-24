@@ -1,4 +1,4 @@
-INSERT INTO p_code(p_code_id, p_code, phrase, category, notes) VALUES
+INSERT INTO p_code(p_code_id,p_code,phrase,category,notes) VALUES
 ('PCODE-00001','P201','Obtain special instructions before use.','Prevention',NULL),
 ('PCODE-00002','P202','Do not handle until all safety precautions have been read and understood.','Prevention',NULL),
 ('PCODE-00003','P233','Keep container tightly closed.','Prevention',NULL),
@@ -38,4 +38,21 @@ INSERT INTO p_code(p_code_id, p_code, phrase, category, notes) VALUES
 ('PCODE-00037','P403','Store in a well-ventilated place.','Storage',NULL),
 ('PCODE-00038','P405','Store locked up.','Storage',NULL),
 ('PCODE-00039','P501','Dispose of contents/container to..…','Disposal',NULL),
-('PCODE-00040','P502','Refer to manufacturer/supplier for information on recovery/recycling','Disposal',NULL);
+('PCODE-00040','P502','Refer to manufacturer/supplier for information on recovery/recycling','Disposal',NULL),
+('PCODE-00041','P303','IF ON SKIN (or hair):','Response',NULL),
+('PCODE-00042','P370','In case of fire:','Response',NULL),
+('PCODE-00043','P380','Evacuate area.','Response',NULL),
+('PCODE-00044','P410','Store at temperatures not exceeding...°C/...°F.','Storage',NULL),
+('PCODE-00045','P412','Do not expose to temperatures exceeding 50°C/ 122°F.','Storage',NULL),
+('PCODE-00046','P353','Rinse skin with water [or shower].','Response',NULL),
+('PCODE-00047','P378','Use… to extinguish.','Response',NULL),
+('PCODE-00048','P375','Fight fire remotely due to the risk of explosion.','Response',NULL),
+('PCODE-00049','P235','Keep cool.','Prevention',NULL),
+('PCODE-00050','P334','Immerse in cool water [or wrap in wet bandages].','Response',NULL),
+('PCODE-00051','P402','Store in a dry place.','Storage',NULL),
+('PCODE-00052','P404','Store in a closed container.','Storage',NULL),
+('PCODE-00053','P306','IF ON CLOTHING:','Response',NULL),
+('PCODE-00054','P360','Rinse immediately contaminated clothing and skin with plenty of water before removing clothes.','Response',NULL),
+('PCODE-00055','P371','In case of major fire and large quantities:','Response',NULL)
+
+ON CONFLICT (p_code_id) DO NOTHING;

@@ -1,4 +1,4 @@
-CREATE TABLE solvent (
+CREATE TABLE IF NOT EXISTS solvent (
     solvent_id TEXT PRIMARY KEY,
     canonical_name TEXT,
     cas_number TEXT,
@@ -11,39 +11,23 @@ CREATE TABLE solvent (
     deleted_at TIMESTAMP
 );
 
-CREATE TABLE solvent_formula (
-    solvent_id TEXT,
-    formula_id TEXT,
-    fraction NUMERIC,       -- optional: fraction by mass/volume
-    PRIMARY KEY (solvent_id, formula_id),
-
-    FOREIGN KEY (solvent_id)
-        REFERENCES solvent(solvent_id)
-        ON DELETE CASCADE
-        ON UPDATE RESTRICT,
-
-    FOREIGN KEY (formula_id)
-        REFERENCES formula(formula_id)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT
-);
-
-CREATE TABLE reference (
+CREATE TABLE IF NOT EXISTS reference (
     reference_id TEXT PRIMARY KEY,
     title TEXT,
-    source TEXT,
+    reference_type TEXT,
     url TEXT,
     publisher TEXT,
     jurisdiction TEXT,
-    date_published DATE
+    version TEXT,
+    published_date DATE
 );
 
-CREATE TABLE alias (
+CREATE TABLE IF NOT EXISTS alias (
     alias_id TEXT PRIMARY KEY,
     solvent_id TEXT NOT NULL,
     alias_name TEXT NOT NULL,
     alias_type TEXT CHECK (
-      alias_type IN ('IUPAC', 'common', 'trade', 'abbreviation')),
+      alias_type IN ('IUPAC', 'common', 'trade', 'abbreviation', 'historical', 'synonym')),
     UNIQUE (solvent_id, alias_name),
   
     FOREIGN KEY (solvent_id)
@@ -52,16 +36,21 @@ CREATE TABLE alias (
         ON UPDATE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS property_type (
+    property_code TEXT PRIMARY KEY,
+    property_name TEXT UNIQUE NOT NULL,  -- e.g., boiling_point, flash_point
+    default_unit TEXT
+);
 
-CREATE TABLE observation (
+CREATE TABLE IF NOT EXISTS observation (
     observation_id TEXT PRIMARY KEY,
-    solvent_id TEXT NOT NULL REFERENCES solvent(solvent_id),
-    property_code TEXT REFERENCES property_type(property_code),          -- e.g., boiling_point, flash_point, vapour_pressure
+    solvent_id TEXT NOT NULL,
+    property_code TEXT,   -- e.g., boiling_point, flash_point, vapour_pressure
     value NUMERIC(12,6) NOT NULL,   -- measured or reported value
     unit TEXT,                       -- e.g., "°C", "mmHg", "g/L"
     conditions TEXT,                 -- e.g., temperature, pressure
-    reference_id TEXT REFERENCES reference(reference_id),
-    notes TEXT
+    reference_id TEXT,
+    notes TEXT,
 
     FOREIGN KEY (solvent_id)
         REFERENCES solvent(solvent_id)
@@ -77,11 +66,5 @@ CREATE TABLE observation (
         REFERENCES property_type(property_code)
         ON DELETE RESTRICT
         ON UPDATE RESTRICT
-);
-
-CREATE TABLE property_type (
-    property_code TEXT PRIMARY KEY,
-    property_name TEXT UNIQUE NOT NULL,  -- e.g., boiling_point, flash_point
-    default_unit TEXT
 );
 

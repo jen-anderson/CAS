@@ -1,6 +1,8 @@
 INSERT INTO hazard_classification(
     classification_id, hazard_id, hazard_class, category, signal_word
 ) VALUES
+
+('HCL-00000','HAZ-00000','No hazard','Category 0','No warning'),
 ('HCL-00001','HAZ-00012','Flammable liquids','Category 2','Danger'),
 ('HCL-00002','HAZ-00013','Flammable liquids','Category 3','Warning'),
 ('HCL-00003','HAZ-00035','Acute toxicity, oral','Category 3','Danger'),
@@ -30,7 +32,5 @@ INSERT INTO hazard_classification(
 ('HCL-00027','HAZ-00068','Specific target organ toxicity, repeated exposure','Category 2','Warning'),
 ('HCL-00028','HAZ-00069','Hazardous to the aquatic environment, acute hazard','Category 1','Warning'),
 ('HCL-00029','HAZ-00071','Hazardous to the aquatic environment, acute hazard','Category 3',NULL),
-('HCL-00030','HAZ-00072','Hazardous to the aquatic environment, long-term hazard','Category 1','Warning'),
-('HCL-00031','HAZ-00073','Hazardous to the aquatic environment, long-term hazard','Category 2',NULL),
-('HCL-00032','HAZ-00074','Hazardous to the aquatic environment, long-term hazard','Category 3',NULL),
-('HCL-00033','HAZ-00076','Hazardous to the ozone layer','Category 1','Warning');
+('HCL-00033','HAZ-00072','Hazardous to the ozone layer','Category 1','Warning')
+ON CONFLICT (classification_id) DO NOTHING;

@@ -1,4 +1,5 @@
 INSERT INTO hazard_code(hazard_id, h_code, hazard_statements) VALUES
+('HAZ-00000','H000', 'No recorded hazard'),
 ('HAZ-00001','H200','Unstable Explosive'),
 ('HAZ-00002','H201','Explosive; mass explosion hazard'),
 ('HAZ-00003','H202','Explosive; severe projection hazard'),

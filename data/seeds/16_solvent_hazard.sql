@@ -1,4 +1,6 @@
-INSERT INTO solvent_hazard(solvent_id,hazard_id) VALUES
+INSERT INTO solvent_hazard (solvent_id, hazard_id)
+SELECT v.solvent_id, v.hazard_id
+FROM (VALUES
 ('SOLV-00001','HAZ-00012'),
 ('SOLV-00001','HAZ-00045'),
 ('SOLV-00001','HAZ-00053'),
@@ -14,8 +16,6 @@ INSERT INTO solvent_hazard(solvent_id,hazard_id) VALUES
 ('SOLV-00003','HAZ-00049'),
 ('SOLV-00003','HAZ-00043'),
 ('SOLV-00003','HAZ-00045'),
-('SOLV-00003','HAZ-00049'),
-('SOLV-00004','HAZ-00032'),
 ('SOLV-00004','HAZ-00032'),
 ('SOLV-00004','HAZ-00043'),
 ('SOLV-00004','HAZ-00045'),
@@ -155,7 +155,7 @@ INSERT INTO solvent_hazard(solvent_id,hazard_id) VALUES
 ('SOLV-00031','HAZ-00041'), -- H315
 ('SOLV-00031','HAZ-00053'), -- H336
 ('SOLV-00031','HAZ-00071'), -- H411
-('SOLV-00032',NULL),
+('SOLV-00032','HAZ-00000'),
 ('SOLV-00033m','HAZ-00013'), -- H226
 ('SOLV-00033m','HAZ-00034'), -- H304
 ('SOLV-00033m','HAZ-00038'), -- H312
@@ -176,4 +176,8 @@ INSERT INTO solvent_hazard(solvent_id,hazard_id) VALUES
 ('SOLV-00033p','HAZ-00041'), -- H315
 ('SOLV-00033p','HAZ-00045'), -- H319
 ('SOLV-00033p','HAZ-00049'), -- H332
-('SOLV-00033p','HAZ-00052'); -- H335
+('SOLV-00033p','HAZ-00052') -- H335
+) AS v(solvent_id, hazard_id)
+WHERE EXISTS (SELECT 1 FROM solvent s WHERE s.solvent_id = v.solvent_id)
+  AND EXISTS (SELECT 1 FROM hazard_code h WHERE h.hazard_id = v.hazard_id)
+ON CONFLICT (solvent_id, hazard_id) DO NOTHING;

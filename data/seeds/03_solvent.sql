@@ -1,4 +1,4 @@
-INSERT INTO solvent(solvent_id, canonical_name, cas_number, refchem_id, is_mixture, note) VALUES
+INSERT INTO solvent(solvent_id,canonical_name,cas_number,refchem_id,is_mixture,note) VALUES
 ('SOLV-00001','propanone','67-64-1',6608,FALSE,NULL),
 ('SOLV-00002','benzene','71-43-2',6619,FALSE,NULL),
 ('SOLV-00003','benzyl alcohol','100-51-6',6391,FALSE,NULL),

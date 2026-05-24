@@ -1,26 +1,27 @@
-CREATE TABLE p_code (
-    pcode_id TEXT PRIMARY KEY,        -- e.g. P264
+CREATE TABLE IF NOT EXISTS p_code (
+    p_code_id TEXT PRIMARY KEY,        -- e.g. P264
+    p_code TEXT,
     phrase TEXT NOT NULL,             -- full standardized text
     category TEXT,                    -- prevention / response / storage / disposal
     notes TEXT
 );
 
-CREATE TABLE pcode_group (
+CREATE TABLE IF NOT EXISTS pcode_group (
     group_id TEXT PRIMARY KEY,
     group_name TEXT,
     description TEXT
 );
 
 
-CREATE TABLE hazard_code (
+CREATE TABLE IF NOT EXISTS hazard_code (
     hazard_id TEXT PRIMARY KEY,
     h_code TEXT,
     hazard_statements TEXT
 );
 
-CREATE TABLE hazard_classification (
+CREATE TABLE IF NOT EXISTS hazard_classification (
     classification_id TEXT PRIMARY KEY,
-    hazard_id TEXT REFERENCES hazard_code(hazard_id),
+    hazard_id TEXT,
     hazard_class TEXT,
     category TEXT,
     signal_word TEXT,

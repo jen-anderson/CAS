@@ -1,4 +1,4 @@
-INSERT INTO reference (refence_id, title, reference_type, url, publisher, jurisdiction, version, published_date) VALUES
+INSERT INTO reference(reference_id,title,reference_type,url,publisher,jurisdiction,version,published_date) VALUES
 ('REF-00001','Ormsby reference 1','Dataset','https://cool.culturalheritage.org/packages/solvent-solver/solvent_solver.html','National Archives and Records Administration',NULL,NULL,'2006-11-01'),
 ('REF-00002','Ormsby reference 2','Dataset','https://cool.culturalheritage.org/packages/solvent-solver/solvent_solver.html','National Archives and Records Administration',NULL,NULL,'2006-11-01'),
 ('REF-00003','Ormsby reference 3','Dataset','https://cool.culturalheritage.org/packages/solvent-solver/solvent_solver.html','National Archives and Records Administration',NULL,NULL,'2006-11-01'),
@@ -30,8 +30,8 @@ INSERT INTO reference (refence_id, title, reference_type, url, publisher, jurisd
 ('REF-00029','pyridine','MSDS','https://sdsmanager.com/safety-data-sheet/sigma-aldrich-chemie-gmbh-pyridine-en-14/','SigmaAldrich Chemie GmbH','EU','7.08','2025-08-26'),
 ('REF-00030','tetrahydrofuran','MSDS','https://sdsmanager.com/safety-data-sheet/sigma-aldrich-chemie-gmbh-tetrahydrofuran-en-33/','SigmaAldrich Chemie GmbH','EU','8.17','2025-08-17'),
 ('REF-00031','toluene','MSDS','https://sdsmanager.com/safety-data-sheet/sigma-aldrich-chemie-gmbh-toluene-en-19/','SigmaAldrich Chemie GmbH','EU','7.21','2025-08-27'),
-('REF-00032','111-trichloroethane','MSDS','https://sdsmanager.com/safety-data-sheetREF-00033,turpentine,MSDS,https://sdsmanager.com/safety-data-sheet/marketing-chemicals-ltd-mineral-turpentine-en/,Marketing Chemicals Ltd,NZ,NULL,2023-03-15)
-('REF-00033','turpentine','MSDS','https://sdsmanager.com/safety-data-sheet/marketing-chemicals-ltd-mineral-turpentine-en/','Marketing Chemicals Ltd','NZ',NULL,'2024-08-15');
+('REF-00032','111-trichloroethane','MSDS','https://sdsmanager.com/safety-data-sheet/sigma-aldrich-inc-111-trichloroethane-en-3/','SigmaAldrich Chemie GmbH','EU','8.5','2023-03-17'),
+('REF-00033','turpentine','MSDS','https://sdsmanager.com/safety-data-sheet/marketing-chemicals-ltd-mineral-turpentine-en/','Marketing Chemicals Ltd','NZ',NULL,'2024-08-15'),
 ('REF-00034','petroleum-spirit','MSDS','https://sdsmanager.com/safety-data-sheet/chemsupply-australia-pty-ltd-petroleum-spirit-40-60degc-en/','ChemSupplyAustralia','AUS',NULL,'2025-07-24'),
 ('REF-00035','deionised-water','MSDS','https://sdsmanager.com/safety-data-sheet/j-v-barrett-co-ltd-ltd-deionised-water-en/','J.V.Barrett & Co. Ltd','UK','1.0','2025-01-01'),
 ('REF-00036','m-xylene','MSDS','https://sdsmanager.com/safety-data-sheet/sigma-aldrich-pte-ltd-m-xylene-en/','SigmaAldrich Chemie GmbH','EU','6.11','2025-04-07'),
@@ -70,4 +70,4 @@ INSERT INTO reference (refence_id, title, reference_type, url, publisher, jurisd
 ('REF-00069','PubChem Compound Summary for Ligroine.','Compound Summary','https://pubchem.ncbi.nlm.nih.gov/compound/Ligroine','National Center for Biotechnology Information',NULL,NULL,'2026-04-29'),
 ('REF-00070','PubChem Compound Summary for CID 962, Water.','Compound Summary','https://pubchem.ncbi.nlm.nih.gov/compound/962','National Center for Biotechnology Information',NULL,NULL,'2026-04-29'),
 ('REF-00071','PubChem Compound Summary for Xylene.','Compound Summary','https://pubchem.ncbi.nlm.nih.gov/compound/Xylene','National Center for Biotechnology Information',NULL,NULL,'2026-04-29'),
-('REF-00072','Practical Solubility - HSP','Dataset','https://www.stevenabbott.co.uk/practical-solubility/hsp-basics.php','Steven Abbott',NULL,NULL,'2026-01-01')
+('REF-00072','Practical Solubility - HSP','Dataset','https://www.stevenabbott.co.uk/practical-solubility/hsp-basics.php','Steven Abbott',NULL,NULL,'2026-01-01');
