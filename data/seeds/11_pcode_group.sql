@@ -1,0 +1,17 @@
+INSERT INTO pcode_group(group_id,group_name,description) VALUES
+('GRP-00001', 'P370+P380', 'In case of fire: Evacuate area.'),
+('GRP-00002', 'P410+P412', 'Protect from sunlight. Do no expose to temperatures exceeding 50 celcius degrees.'),
+('GRP-00003', 'P303+P361+P353', 'IF ON SKIN (or hair): Remove/Take off immediately all contaminated clothing. Rinse skin with water/shower.'),
+('GRP-00004', 'P370+P378', 'In case of fire: Use ... for extinction.'),
+('GRP-00005', 'P370+P378+P380+P375', 'In case of fire: Evacuate area. Fight fire remotely due to the risk of explosion. [Use...to extinguish].'),
+('GRP-00006', 'P403+P235', 'Protect from sunlight. Store in a well-ventilated place.'),
+('GRP-00007', 'P302+P334', 'IF ON SKIN: Immerse in cool water/wrap in wet bandages.'),
+('GRP-00008', 'P335+P334', 'Brush off loose particles from skin. Immerse in cool water/wrap in wet bandages.'),
+('GRP-00009', 'P402+P404', 'Group of related P-codes'),
+('GRP-00010', 'P306+P360', 'IF ON CLOTHING: rinse immediately contaminated clothing and skin with plenty of water before removing clothes.'),
+('GRP-00011', 'P371+P380+P375', 'In case of major fire and large quantities: Evacuate area. Fight fire remotely due to the risk of explosion'),
+('GRP-00012', 'P308+P313', 'IF exposed or concerned: Get medical advice/attention.'),
+('GRP-00013', 'P301+P310', 'IF SWALLOWED: Immediately call a POISON CENTER or doctor/physician.'),
+('GRP-00014', 'P302+P352', 'IF ON SKIN: Wash with plenty of soap and water.'),
+('GRP-00015', 'P304+P340', 'IF INHALED: Remove victim to fresh air and keep at rest in a position comfortable for breathing.'),
+('GRP-00016', 'P305+P351+P338', 'IF IN EYES: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do. Continue rinsing.');

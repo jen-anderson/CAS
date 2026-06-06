@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "dependencies": {
+    "csv-parse": "^6.2.1",
+    "knex": "^3.2.10",
+    "pg": "^8.20.0",
+    "postgresql": "^0.0.1"
+  }
+}
