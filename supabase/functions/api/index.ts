@@ -25,9 +25,15 @@ const routes: Record<string, any> = {
 export default {
   fetch: withSupabase({ auth: ["publishable", "secret"] }, async (req: Request, ctx: AppContext) => {
     const url = new URL(req.url);
-    const path = url.pathname;
+    const tableName = url.searchParams.get('table');
+    const path = tableName ? `/${tableName}` : url.pathname;
+
     const method = req.method;
+
     console.log('index')
+    console.log('Attempting to match route for path:', path);
+    console.log('Detected table:', tableName);
+    console.log('Full path:', path);
 
     // Sort the keys by length (longest first) so "/solvent_formula" is checked before "/solvent"
     const routeKeys = Object.keys(routes).sort((a, b) => b.length - a.length);
@@ -37,7 +43,7 @@ export default {
       return await routes[routeKey](req, method, ctx);
     }
 
-    return new Response("Not Found", { status: 404 });
+    return new Response("Not Found" + path, { status: 404 });
   }),
 };
 

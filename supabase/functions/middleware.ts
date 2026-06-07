@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 import { AppContext } from "./types/types.ts";
 
 export function withSupabase(config: any, handler: Function) {

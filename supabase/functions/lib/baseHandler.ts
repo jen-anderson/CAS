@@ -25,20 +25,32 @@ export const baseHandler = (
     switch (method) {
       case 'GET': {
         if (id) {
-          const { data, error } = await ctx.supabase.from(tableName).select("*").eq("id", id).single();
+          const { data, error } = await ctx.supabase
+            .from(tableName)
+            .select("*")
+            .eq("id", id)
+            .single();
           return error ? new Response(JSON.stringify(error), { status: 404 }) : new Response(JSON.stringify(data), { status: 200 });
         }
 
         const selectQuery = url.searchParams.get('select') ?? "*";
         const q = url.searchParams.get('q');
-        let query = ctx.supabase.from(tableName).select(selectQuery);
+
+        // Use Supabase 'count: exact' instead of Prisma
+        let query = ctx.supabase
+          .from(tableName)
+          .select(selectQuery, { count: 'exact' });
 
         if (q) {
           if (q.includes('-')) query = query.eq(searchField, q);
           else query = query.ilike(searchField, `%${q}%`);
         }
 
-        const { data, error } = await query;
+        const { data, error, count } = await query;
+
+        // You can now access 'count' directly from the Supabase response
+        console.log('Total items:', count);
+
         return error ? new Response(JSON.stringify(error), { status: 500 }) : new Response(JSON.stringify(data), { status: 200 });
       }
 
