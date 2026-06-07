@@ -1,10 +1,14 @@
 {
   "imports": {
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2",
-    "~/": "./supabase/functions/"
+    "@prisma/client": "https://esm.sh/@prisma/client@7.8.0?bundle",
+    "@prisma/adapter-pg": "https://esm.sh/@prisma/adapter-pg@7.8.0?bundle",
+    "pg": "https://esm.sh/pg@8.13.1?bundle"
+  },
+  "tasks": {
+    "dev": "supabase functions serve --no-verify-jwt --import-map deno.json"
   },
   "compilerOptions": {
-    "strict": true,
-    "noUncheckedIndexedAccess": true
+    "lib": ["deno.window", "deno.ns"]
   }
 }

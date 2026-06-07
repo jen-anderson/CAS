@@ -1,68 +1,69 @@
-import { AppContext } from "~/index.ts";
+import { AppContext } from "./../types/types.ts"
 
-// Returns raw { data, error } so the handler can decide the HTTP response.
-async function getOne(id: string, ctx: AppContext) {
-  return await ctx.supabase.from("pcode_group").select("*").eq("id", id).single();
+
+async function add(tableName: string, body: any, ctx: AppContext) {
+  return await ctx.supabase.from(tableName).insert(body);
 }
 
-async function search(query: string | null, ctx: AppContext) {
-  let dbQuery = ctx.supabase.from("pcode_group").select("*");
-  if (query) dbQuery = dbQuery.ilike("name", `%${query}%`);
-  return await dbQuery;
+async function update(tableName: string, id: string, body: any, ctx: AppContext) {
+  return await ctx.supabase.from(tableName).update(body).eq("id", id);
 }
 
-async function add(body: any, ctx: AppContext) {
-  return await ctx.supabase.from("pcode_group").insert(body);
+async function remove(tableName: string, id: string, ctx: AppContext) {
+  return await ctx.supabase.from(tableName).delete().eq("id", id);
 }
 
-async function update(id: string, body: any, ctx: AppContext) {
-  return await ctx.supabase.from("pcode_group").update(body).eq("id", id);
-}
-
-async function remove(id: string, ctx: AppContext) {
-  return await ctx.supabase.from("pcode_group").delete().eq("id", id);
-}
-
-// Main Handler (Traffic Controller) ---
-export async function pcode_groupHandler(req: Request, method: string, ctx: AppContext) {
+export const baseHandler = (
+  tableName: string,
+  searchField: string = "name" // Default to 'name', but override for join tables
+) => async (req: Request, method: string, ctx: AppContext) => {
   const url = new URL(req.url);
   const id = url.searchParams.get('id') ?? "";
+  console.log('index')
 
   try {
     switch (method) {
       case 'GET': {
         if (id) {
-          const { data, error } = await getOne(id, ctx);
+          const { data, error } = await ctx.supabase.from(tableName).select("*").eq("id", id).single();
           return error ? new Response(JSON.stringify(error), { status: 404 }) : new Response(JSON.stringify(data), { status: 200 });
         }
+
+        const selectQuery = url.searchParams.get('select') ?? "*";
         const q = url.searchParams.get('q');
-        const { data, error } = await search(q, ctx);
+        let query = ctx.supabase.from(tableName).select(selectQuery);
+
+        if (q) {
+          if (q.includes('-')) query = query.eq(searchField, q);
+          else query = query.ilike(searchField, `%${q}%`);
+        }
+
+        const { data, error } = await query;
         return error ? new Response(JSON.stringify(error), { status: 500 }) : new Response(JSON.stringify(data), { status: 200 });
       }
 
       case 'POST': {
         const body = await req.json();
-        const { data, error } = await add(body, ctx);
+        const { data, error } = await add(tableName, body, ctx);
         return error ? new Response(JSON.stringify(error), { status: 500 }) : new Response(JSON.stringify(data), { status: 201 });
       }
 
       case 'PATCH': {
         if (!id) return new Response("Missing ID", { status: 400 });
         const body = await req.json();
-        const { data, error } = await update(id, body, ctx);
+        const { data, error } = await update(tableName, id, body, ctx);
         return error ? new Response(JSON.stringify(error), { status: 500 }) : new Response(JSON.stringify(data), { status: 200 });
       }
 
       case 'DELETE': {
         if (!id) return new Response("Missing ID", { status: 400 });
-        const { error } = await remove(id, ctx);
+        const { error } = await remove(tableName, id, ctx);
         return error ? new Response(JSON.stringify(error), { status: 500 }) : new Response(null, { status: 204 });
       }
-
       default:
         return new Response("Method Not Allowed", { status: 405 });
     }
   } catch (err) {
     return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
   }
-}
+};

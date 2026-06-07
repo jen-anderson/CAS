@@ -1,3 +1,4 @@
 {
-  "deno.path": "/home/untz/.deno/bin/deno"
+  "deno.path": "/home/untz/.deno/bin/deno",
+  "deno.enable": true
 }

@@ -1,28 +1,13 @@
-import { PrismaClient } from "../../../generated/prisma/client.ts";
+import { PrismaClient } from "https://esm.sh/@prisma/client@7.8.0?bundle";
+import { PrismaPg } from "@prisma/adapter-pg";
+import * as pg from "pg";
 
-const dummyAdapter = {
-  provider: "postgres" as const,
-  performIO: async (args: any) => {
-    // This await satisfies the TypeScript requirement for async functions
-    await new Promise((resolve) => setTimeout(resolve, 0));
+const pool = new pg.Pool({ connectionString: Deno.env.get("DATABASE_URL") });
 
-    console.log("Prisma attempted to run query:", args);
-    return {
-      rows: [],
-      rowCount: 0,
-    };
-  },
-  // The interface requires a close method
-  close: async () => { },
-};
+const adapter = new PrismaPg(pool);
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+// Instantiate the client with the adapter
+const prisma = new PrismaClient({ adapter });
 
-// We pass the adapter to satisfy the generated client's strict requirements
-export const prisma = globalForPrisma.prisma || new PrismaClient({
-  adapter: dummyAdapter as any
-});
-
-if (Deno.env.get("NODE_ENV") !== "production") {
-  globalForPrisma.prisma = prisma;
-}
+const count = await prisma.solvent.count();
+console.log(count);
