@@ -3,19 +3,22 @@ import { AppContext } from "./types/types.ts";
 
 export function withSupabase(config: any, handler: Function) {
   return async (req: Request) => {
-    const url = Deno.env.get("PROJECT_URL");
-    const key = Deno.env.get("SERVICE_ROLE_KEY");
+    // USE THE URL FROM YOUR LOGS
+    const url = Deno.env.get("SUPABASE_URL") || "http://kong:8000";
 
-    if (!url || !key) {
-      console.error("Missing environment variables!");
-      return new Response("Server Configuration Error", { status: 500 });
+    // USE THE SERVICE ROLE KEY FROM YOUR LOGS
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!serviceKey) {
+      console.error("CRITICAL: Service role key not found in env!");
     }
 
-    const supabase = createClient(url, key)
+    // Initialize with the Service Role key
+    const supabase = createClient(url, serviceKey!);
 
     const ctx: AppContext = { supabase };
-
     return await handler(req, ctx);
-
   };
+
+
 }

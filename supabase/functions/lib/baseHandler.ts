@@ -24,12 +24,16 @@ export const baseHandler = (
   try {
     switch (method) {
       case 'GET': {
+
         if (id) {
           const { data, error } = await ctx.supabase
             .from(tableName)
             .select("*")
             .eq("id", id)
             .single();
+          console.log('DEBUG: Table Name:', tableName);
+          console.log('DEBUG: Error Object:', error); // <--- Add this!
+          console.log('DEBUG: Data:', data);
           return error ? new Response(JSON.stringify(error), { status: 404 }) : new Response(JSON.stringify(data), { status: 200 });
         }
 
