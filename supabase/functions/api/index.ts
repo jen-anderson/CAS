@@ -1,10 +1,14 @@
-import { withSupabase } from "../middleware.ts"; // Assuming you have a local middleware file
+import { withSupabase } from "../lib/middleware.ts"; // Assuming you have a local middleware file
 import { baseHandler } from "../lib/baseHandler.ts";
-import { AppContext } from "../types/types.ts";
+import { AppContext, HandlerFunction } from "../types/types.ts";
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*', // For now, '*' allows anyone. You can change this to 'http://localhost:5173' later.
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
 console.log("--- WORKER BOOTED ---");
 
-const routes: Record<string, any> = {
+const routes: Record<string, HandlerFunction> = {
   "/references": baseHandler("references", "name"),
   "/property_type": baseHandler("property_type", "name"),
   "/solvent": baseHandler("solvent", "name"),
@@ -22,11 +26,19 @@ const routes: Record<string, any> = {
   "/solvent_reference": baseHandler("solvent_reference", "solvent_id"),
 };
 
+
 export default {
-  fetch: withSupabase({ auth: ["publishable", "secret"] }, async (req: Request, ctx: AppContext) => {
+  fetch: withSupabase({ auth: ["publishable"] }, async (req: Request, ctx: AppContext) => {
+
+    if (req.method === 'OPTIONS') {
+      return new Response('ok', { headers: corsHeaders });
+    }
+
     const url = new URL(req.url);
+    const normalisedPathname = url.pathname.replace(/^\/api/, '') || '/';
+
     const tableName = url.searchParams.get('table');
-    const path = tableName ? `/${tableName}` : url.pathname;
+    const path = tableName ? `/${tableName}` : normalisedPathname
 
     const method = req.method;
 
@@ -37,13 +49,14 @@ export default {
 
     // Sort the keys by length (longest first) so "/solvent_formula" is checked before "/solvent"
     const routeKeys = Object.keys(routes).sort((a, b) => b.length - a.length);
-    const routeKey = routeKeys.find((key) => path.startsWith(key));
+    const routeKey = routeKeys.find((key) => normalisedPathname.startsWith(key));
+
 
     if (routeKey) {
-      return await routes[routeKey](req, method, ctx);
+      return await routes[routeKey](req, ctx, method);
     }
 
-    return new Response("Not Found" + path, { status: 404 });
+    return new Response("Not Found" + path, { status: 404, headers: corsHeaders });
   }),
 };
 

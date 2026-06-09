@@ -1,13 +1,23 @@
 {
+  "lint": {
+    "rules": {
+      "exclude": [
+        "no-explicit-any",
+        "ban-types",
+        "no-unused-vars"
+      ]
+    }
+  },
+
   "tasks": {
-    "dev": "supabase functions serve --no-verify-jwt"
+    "start": "deno run --allow-net=api.supabase.com --allow-env=SUPABASE_URL,SUPABASE_KEY main.ts"
   },
       "compilerOptions": {
     "lib": ["deno.window", "deno.ns"]
   },
   
   "imports": {
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.45.0"
+    "@supabase/supabase-js": "jsr:@supabase/supabase-js@2"
   }
 }
 

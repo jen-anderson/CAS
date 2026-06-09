@@ -1,8 +1,8 @@
-import { createClient } from "jsr:@supabase/supabase-js@2";
-import { AppContext } from "./types/types.ts";
+import { createClient, SupabaseClient } from "jsr:@supabase/supabase-js@2";
+import { AppContext, HandlerFunction } from "../types/types.ts";
 
-export function withSupabase(config: any, handler: Function) {
-  return async (req: Request) => {
+export function withSupabase(config: Record<string, unknown>, handler: HandlerFunction) {
+  return async (req: Request): Promise<Response> => {
     // USE THE URL FROM YOUR LOGS
     const url = Deno.env.get("SUPABASE_URL") || "http://kong:8000";
 
@@ -14,10 +14,10 @@ export function withSupabase(config: any, handler: Function) {
     }
 
     // Initialize with the Service Role key
-    const supabase = createClient(url, serviceKey!);
+    const supabase = createClient(url, serviceKey!, {});
 
     const ctx: AppContext = { supabase };
-    return await handler(req, ctx);
+    return await handler(req, ctx, req.method);
   };
 
 

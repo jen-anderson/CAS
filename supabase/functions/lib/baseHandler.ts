@@ -1,11 +1,15 @@
-import { AppContext } from "./../types/types.ts"
+import { AppContext, BaseRow } from "./../types/types.ts"
 
-
-async function add(tableName: string, body: any, ctx: AppContext) {
-  return await ctx.supabase.from(tableName).insert(body);
+export interface GenericRow {
+  [key: string]: unknown;
 }
 
-async function update(tableName: string, id: string, body: any, ctx: AppContext) {
+async function add(tableName: string, body: GenericRow, ctx: AppContext) {
+  const result = await (ctx.supabase.from(tableName) as any).insert([body]);
+  return result as { data: unknown; error: unknown };
+}
+
+async function update(tableName: string, id: string, body: Record<string, unknown>, ctx: AppContext) {
   return await ctx.supabase.from(tableName).update(body).eq("id", id);
 }
 
@@ -16,7 +20,10 @@ async function remove(tableName: string, id: string, ctx: AppContext) {
 export const baseHandler = (
   tableName: string,
   searchField: string = "name" // Default to 'name', but override for join tables
-) => async (req: Request, method: string, ctx: AppContext) => {
+) => async (req: Request, ctx: AppContext, ...args: string[]) => {
+  //If two args, method is pulled from request.
+  //If three, method is the first element of the args.
+  const method = args[0] ?? req.method;
   const url = new URL(req.url);
   const id = url.searchParams.get('id') ?? "";
   console.log('index')
@@ -79,7 +86,7 @@ export const baseHandler = (
       default:
         return new Response("Method Not Allowed", { status: 405 });
     }
-  } catch (err) {
+  } catch (_err) {
     return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
   }
 };
