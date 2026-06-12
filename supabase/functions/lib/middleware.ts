@@ -1,24 +1,39 @@
-import { createClient, SupabaseClient } from "jsr:@supabase/supabase-js@2";
-import { AppContext, HandlerFunction } from "../types/types.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
+import { AppContext, HandlerFunction } from "../../../types/types.ts";
 
 export function withSupabase(config: Record<string, unknown>, handler: HandlerFunction) {
   return async (req: Request): Promise<Response> => {
-    // USE THE URL FROM YOUR LOGS
-    const url = Deno.env.get("SUPABASE_URL") || "http://kong:8000";
+    const url = Deno.env.get("SUPABASE_URL") || "http://127.0.0.1:54321";
 
-    // USE THE SERVICE ROLE KEY FROM YOUR LOGS
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    // Use the ANON key, not the SERVICE_ROLE key, to respect RLS
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") || "YOUR_ANON_KEY";
 
-    if (!serviceKey) {
-      console.error("CRITICAL: Service role key not found in env!");
-    }
+    const authHeader = req.headers.get("Authorization") || "";
+    const token = authHeader.replace("Bearer ", "");
 
-    // Initialize with the Service Role key
-    const supabase = createClient(url, serviceKey!, {});
+    // Create the client
+    const supabase = createClient(url, anonKey, {
+      global: {
+        headers: {
+          Authorization: `Bearer ${authHeader.replace("Bearer ", "")}`,
+        },
+      },
+    });
 
     const ctx: AppContext = { supabase };
     return await handler(req, ctx, req.method);
   };
-
-
 }
+
+export const protect = (handler: HandlerFunction) => {
+  return async (req: Request, ctx: AppContext) => {
+    // We can use the client's internal session check
+    const { data: { user }, error } = await ctx.supabase.auth.getUser();
+
+    if (error || !user) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+
+    return await handler(req, ctx);
+  };
+};

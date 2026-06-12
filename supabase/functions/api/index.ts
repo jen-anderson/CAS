@@ -1,6 +1,7 @@
 import { withSupabase } from "../lib/middleware.ts"; // Assuming you have a local middleware file
 import { baseHandler } from "../lib/baseHandler.ts";
-import { AppContext, HandlerFunction } from "../types/types.ts";
+import { AppContext, HandlerFunction } from "../../../types/types.ts";
+import { lookupHandler, mixLookupHandler } from "../lib/lookupHandlers.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*', // For now, '*' allows anyone. You can change this to 'http://localhost:5173' later.
@@ -9,7 +10,7 @@ const corsHeaders = {
 console.log("--- WORKER BOOTED ---");
 
 const routes: Record<string, HandlerFunction> = {
-  "/references": baseHandler("references", "name"),
+  "/reference": baseHandler("reference", "name"),
   "/property_type": baseHandler("property_type", "name"),
   "/solvent": baseHandler("solvent", "name"),
   "/alias": baseHandler("alias", "name"),
@@ -24,6 +25,8 @@ const routes: Record<string, HandlerFunction> = {
   "/pcode_group_map": baseHandler("pcode_group_map", "group_id"),
   "/solvent_hazard": baseHandler("solvent_hazard", "solvent_id"),
   "/solvent_reference": baseHandler("solvent_reference", "solvent_id"),
+  "/chemical_lookup": lookupHandler("solvent", "solvent_id"),
+  "/mix_lookup": mixLookupHandler
 };
 
 
@@ -53,6 +56,7 @@ export default {
 
 
     if (routeKey) {
+      console.log("Calling handler for:", routeKey);
       return await routes[routeKey](req, ctx, method);
     }
 

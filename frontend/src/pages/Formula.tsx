@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiClient } from "../services/api.ts";
 
-export const Solvents = () => {
+export const Formula = () => {
     
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ export const Solvents = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await apiClient('solvent');
+      const data = await apiClient('formula');
       setData(data);
       } catch (error){
       console.error('Fetch failed:', error)
@@ -27,7 +27,7 @@ export const Solvents = () => {
 
   return (
     <div>
-      <h1>Solvents</h1>
+      <h1>Formula</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
