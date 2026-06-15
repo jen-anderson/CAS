@@ -5,6 +5,7 @@ import './App.css'
 import { AppLayout } from './layouts/AppLayout.tsx'
 import { HomePage } from './pages/HomePage.tsx'
 import { Chemical } from './pages/Chemical.tsx'
+import { ChemicalMix } from './pages/ChemicalMix.tsx'
 import { Solvents } from './pages/Solvents.tsx'
 import { Reference } from './pages/Reference.tsx'
 import { AuthContext } from './contexts/AuthContext.tsx';
@@ -15,7 +16,8 @@ import { Formula } from './pages/Formula.tsx';
       <Route path="/" element={<AppLayout />}> 
         <Route index element={<HomePage/>} />
         <Route path="chemical/:id" element={<Chemical />} />
-        <Route path="solvents" element={<Solvents />} />
+        <Route path="chemical-mix/" element={<ChemicalMix />} />
+        <Route path="solvent" element={<Solvents />} />
         <Route path="reference" element={<Reference />} />
         <Route path="formula" element={<Formula />} />
       </Route>

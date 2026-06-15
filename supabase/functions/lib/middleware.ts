@@ -5,13 +5,11 @@ export function withSupabase(config: Record<string, unknown>, handler: HandlerFu
   return async (req: Request): Promise<Response> => {
     const url = Deno.env.get("SUPABASE_URL") || "http://127.0.0.1:54321";
 
-    // Use the ANON key, not the SERVICE_ROLE key, to respect RLS
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY") || "YOUR_ANON_KEY";
 
     const authHeader = req.headers.get("Authorization") || "";
     const token = authHeader.replace("Bearer ", "");
 
-    // Create the client
     const supabase = createClient(url, anonKey, {
       global: {
         headers: {
@@ -27,7 +25,7 @@ export function withSupabase(config: Record<string, unknown>, handler: HandlerFu
 
 export const protect = (handler: HandlerFunction) => {
   return async (req: Request, ctx: AppContext) => {
-    // We can use the client's internal session check
+
     const { data: { user }, error } = await ctx.supabase.auth.getUser();
 
     if (error || !user) {

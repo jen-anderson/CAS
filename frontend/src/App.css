@@ -182,3 +182,79 @@
     border-right-color: var(--border);
   }
 }
+
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding:1rem;
+}
+
+.hansen-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.hansen-card {
+  border: 1px solid #ddd;
+  padding: 0.75 rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-size: 0.7rem;
+}
+
+.hansen-card strong {
+  display: block;
+  font-size: 0.7rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+
+.chart-sidebar {
+  padding: 10px;
+  background: #f9f9f9;
+  border-right: 1px solid #ddd;
+}
+
+.chemical-svg-container {
+  max-height: 200px; 
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  overflow: hidden; 
+  padding-bottom: 20px;
+}
+
+.chemical-svg-container svg {
+  max-height: 180px;
+  width: auto;     /* Maintain aspect ratio */
+  height: auto;
+}
+
+.chemical-link {
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  text-decoration: none;
+}
+
+.chemical-link:hover {
+  transform: scale(1.05); /* Subtle zoom effect on hover */
+  outline: 2px solid #ddd; 
+  border-radius: 8px;
+}
+
+
+@media (min-width: 1024px) {
+  .page-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px; /* Sidebar | Main | Chart */
+    align-items: start; /* Prevents items from stretching vertically */
+    gap: 2rem;
+  }
+}

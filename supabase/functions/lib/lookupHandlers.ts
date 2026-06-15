@@ -26,6 +26,7 @@ export const lookupHandler = (tableName: string, primaryKey: string): HandlerFun
       .select(`
       solvent_id,
       canonical_name,
+      refchem_id,
       solvent_formula (
         fraction,
         formula (
@@ -41,20 +42,26 @@ export const lookupHandler = (tableName: string, primaryKey: string): HandlerFun
         )
       ),
       observation (
-      observation_id,
-      property_code,
-      value,
-      unit,
-      conditions,
-      notes,
-      priority_score,
-      reference_id,
-      reference (
+        observation_id,
+        property_code,
+        value,
+        unit,
+        conditions,
+        notes,
+        priority_score,
         reference_id,
-        title,
-        reference_type,
-        url
-      )
+        reference (
+          reference_id,
+          title,
+          reference_type,
+          url
+        )
+      ),
+      alias (
+        alias_id,
+        alias_name,
+        alias_type
+        )
       )
     `)
 

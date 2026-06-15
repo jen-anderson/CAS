@@ -23,6 +23,7 @@ export interface BaseRecord {
 export interface Solvent extends BaseRecord {
   formula: string;
   cas_number: string;
+  refChem_id: string;
 }
 
 export type HandlerFunction = (
@@ -67,10 +68,22 @@ export interface GroupedObservations {
 export interface SolventFormula {
   fraction: number
   formula: Formula
+  solvent: Solvent
 }
 
 export interface ChemicalData {
   canonical_name: string
+  solvent_id: string
+  refchem_id: string
   solvent_formula: SolventFormula[]
   observation: Observation[]
+  alias: Alias[]
+}
+
+
+export interface Alias {
+  alias_id: string
+  solvent_id: string
+  alias_name: string
+  alias_type: string
 }

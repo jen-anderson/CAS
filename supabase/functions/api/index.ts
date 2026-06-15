@@ -1,10 +1,10 @@
-import { withSupabase } from "../lib/middleware.ts"; // Assuming you have a local middleware file
+import { withSupabase } from "../lib/middleware.ts";
 import { baseHandler } from "../lib/baseHandler.ts";
 import { AppContext, HandlerFunction } from "../../../types/types.ts";
 import { lookupHandler, mixLookupHandler } from "../lib/lookupHandlers.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*', // For now, '*' allows anyone. You can change this to 'http://localhost:5173' later.
+  'Access-Control-Allow-Origin': '*', // For now, '*' allows anyone. Change this to 'http://localhost:5173' later.
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 console.log("--- WORKER BOOTED ---");
