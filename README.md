@@ -99,7 +99,7 @@ hexane → hazards → P-codes
 pentane → hazards → P-codes
 
 ### Why this architecture? ###
-Commercial solvent names are inconsistent and often misleading. By normalising trade names to chemical formulas before applying regulatory hazards, this system ensures that safety reporting is driven by chemical composition. This also increases the likelihood of sourcing local compliance documentation.
+Commercial solvent names are inconsistent and often misleading. By normalising trade names to chemical formulas before applying regulatory hazard codes, this system ensures that safety reporting derives from chemical composition. This also increases the likelihood of finding suitable local compliance documentation if the commercial solvent is not widely used.
 
 ## 🗺️ Roadmap ##
 My goal is to evolve this from a data-lookup tool with basic HSP modelling into a comprehensive decision support system.
