@@ -1,62 +1,78 @@
-# CAS
-Solvent lookup
-🧭 1. Core idea of your system
+# Solvent substitution calculator #
 
-You are not modelling “solvents as chemicals”.
+*A tool for choosing appropriate solvents with given parameters, prioritising risk mitigation and operator health. The database is designed to model solvent products (dilutions, mixes) mapping to one or more chemical formulas, which determine hazards and precautions.*
 
-You are modelling:
+## Relational map ##
 
-a solvent product (what is sold/used) that may map to one or more chemical formulas, which determine hazards and precautions
+![System Architecture](./assets/solvents-erd.png)
 
-That distinction is the whole system.
+### 🟦 CORE LAYER (identity + data capture) ###
 
-🧱 2. Full relational map (your actual architecture)
-🟦 CORE LAYER (identity + data capture)
 solvent
+
   │
+
   ├── alias
+
   ├── observation
+
   └── solvent_reference
+
 Purpose:
-what the product is called
-what properties have been measured/reported
-what sources support the data
+- what the product is called or was historically known as (useful when searching for case studies)
+- what properties have been measured/reported
+- what sources support the data
 
-🟨 COMPOSITION LAYER (chemical truth)
+
+### 🟨 COMPOSITION LAYER (chemical truth) ###
+
 solvent
+
   │
+
   └── solvent_formula ──────── formula
+
 Meaning:
-solvent = commercial entity (white spirit, lab solvent, etc.)
-formula = chemical identity (hexane, pentane, mixtures)
-solvent_formula = mapping + optional composition fraction
-🟥 HAZARD LAYER (regulatory classification)
+- solvent = commercial entity (white spirit, lab solvent, etc.) or other chemical formulation
+- formula = chemical identity (hexane, pentane, mixtures); may be constituent of solvents
+- solvent_formula = mapping + optional composition fraction
+
+
+### 🟥 HAZARD LAYER (regulatory classification) ###
+
 formula
+ 
   │
+
   ├── formula_hazard ─────── hazard_code ─────── hazard_classification
-  │
+
   └────────────────────────── hazard_pcode ───── p_code
-Meaning:
-formula determines hazard truth
-hazard_code defines H-statements
-classification refines category/strength
-p_code defines required precautions
 
-🟪 ORGANISATION LAYER (usability grouping)
+Meaning:
+- formula determines hazard truth
+- hazard_code defines H-statements
+- classification refines category/strength
+- p_code defines required precautions
+
+_Hazard statements and regulations vary between territories. By default I have used the latest available European MSDS, providing links. Tables are designed so that any element of the safety framework can be changed easily with minimal updates. This future-proofs a rapidly changing sector (i.e. recent regulatory changes for use of benzene in NZ), and expedites making localised versions_
+
+### 🟪 ORGANISATION LAYER (usability grouping) ###
+
 p_code ───── pcode_group_map ───── pcode_group
+
 Meaning:
-purely structural grouping for UI, filtering, or reporting
-does NOT affect hazard logic
+structural grouping for UI, filtering, or reporting; 
+this does not affect hazard logic
 
-🔗 3. End-to-end flow (this is the key diagram)
+## End-to-end flow ## 
 
-If you query a solvent:
+On querying a solvent:
 
 SOLVENT
   ↓
 solvent_formula
   ↓
-FORMULA
+FORMULA (canonical properties of constituent chemicals)
   ↓
 formula_hazard
   ↓
@@ -66,16 +82,11 @@ hazard_pcode
   ↓
 P_CODE
 
-So the full chain is:
+The full chain is: Product → composition → hazard → precaution
 
-Product → composition → hazard → precaution
+This is important because trade names are used inconsistently. White spirit from one supplier may be predominantly hexane, while another uses a pentane base.
 
-🧪 4. Your hexane / pentane example (why your design works)
-Case:
-Supplier A: “White Spirit” = mostly hexane
-Supplier B: “White Spirit” = mostly pentane
-
-Your system handles it as:
+The system handles it as:
 solvent (White Spirit A)
   → solvent_formula → hexane
 
@@ -87,210 +98,19 @@ Then:
 hexane → hazards → P-codes
 pentane → hazards → P-codes
 
-✔ No contradiction
-✔ No forced single definition
-✔ Supplier variation preserved
-✔ Chemistry stays stable at formula level
+### Why this architecture? ###
+Commercial solvent names are inconsistent and often misleading. By normalising trade names to chemical formulas before applying regulatory hazards, this system ensures that safety reporting is driven by chemical composition. This also increases the likelihood of sourcing local compliance documentation.
 
-⚠️ 5. The one critical design rule you now have
+## 🗺️ Roadmap ##
+My goal is to evolve this from a data-lookup tool with basic HSP modelling into a comprehensive decision support system.
 
-This is the thing that keeps your system consistent:
+Proposed features include:
+- Visualisation Engine: Graphical representation of solubulity parameters and hazard profiles to enable quick comparisons between potential solvent choices.
 
-Hazards belong to FORMULA, not SOLVENT
+- Multi-Component Modelling: Scaling the solvent_formula logic to handle three or more blends simultaneously (calculating the aggregate hazard profile).
 
-Everything else inherits upward.
+- Advanced Carriers: Incorporating data on solvents within gels, binders, and other delivery systems. Carriers increase duration of contact with a substrate, so that less solvent is necessary - reducing risk to individual and object.
 
-🧠 6. Mental model (very important)
+- Interaction Logic: Adding support for identifying synergists and antagonists to flag potential reactivity or efficacy changes when blending chemicals.
 
-Think of it like this:
-
-Layer	Meaning
-solvent	“what is on the bottle”
-formula	“what it actually is”
-hazard	“what it does”
-p-code	“what you must do”
-
-
-CREATE VIEW solvent_hazard_profile AS
-SELECT
-    s.solvent_id,
-    s.canonical_name AS solvent_name,
-
-    f.formula_id,
-    f.canonical_name AS formula_name,
-
-    h.hazard_id,
-    h.h_code,
-    h.hazard_statements,
-
-    hc.hazard_class,
-    hc.category,
-    hc.signal_word,
-
-    p.pcode_id,
-    p.phrase AS pcode_phrase
-
-FROM solvent s
-
-JOIN solvent_formula sf
-    ON sf.solvent_id = s.solvent_id
-
-JOIN formula f
-    ON f.formula_id = sf.formula_id
-
-LEFT JOIN formula_hazard fh
-    ON fh.formula_id = f.formula_id
-
-LEFT JOIN hazard_code h
-    ON h.hazard_id = fh.hazard_id
-
-LEFT JOIN hazard_classification hc
-    ON hc.hazard_id = h.hazard_id
-
-LEFT JOIN hazard_pcode hp
-    ON hp.hazard_id = h.hazard_id
-
-LEFT JOIN p_code p
-    ON p.pcode_id = hp.pcode_id;
-
-
-    🧭 Recommended ingestion pipeline
-STEP 1 — Raw reference ingestion
-reference table
-
-Store:
-
-source
-URL
-date accessed
-supplier name
-
-✔ immutable
-
-STEP 2 — Solvent identity ingestion
-solvent table
-
-Only:
-
-name
-CAS
-flags (mixture yes/no)
-
-❌ NO hazards
-❌ NO formulas embedded
-
-STEP 3 — Formula resolution layer
-solvent_formula
-formula
-
-This is where you absorb MSDS disagreement:
-
-Example:
-
-Supplier A → hexane-rich fraction
-Supplier B → pentane-rich fraction
-
-You store BOTH.
-
-✔ You do NOT choose a “winner” immediately
-
-STEP 4 — Hazard attachment (authoritative layer)
-formula_hazard
-
-Only attach hazards when:
-
-CAS matches
-trusted MSDS source exists
-or curated rule exists
-
-STEP 5 — P-code resolution
-hazard_pcode
-
-This is stable (GHS standard), so:
-
-least likely to change
-safe to seed early
-🧠 3. How to handle your seed data (without redoing everything)
-
-You already have semi-clean spreadsheets — good.
-
-DO NOT try to “perfect” them first.
-
-Instead:
-
-✔ Step 1 — freeze what you already have
-
-Treat your current dataset as:
-
-“v1 curated ingestion snapshot”
-
-✔ Step 2 — mark uncertainty, don’t delete it
-
-Add (or use existing fields like note):
-
-“supplier-conflict”
-“MSDS disagreement”
-“composition uncertain”
-“source ambiguity”
-
-This is critical — it prevents data loss.
-
-✔ Step 3 — allow duplicates in formula layer
-
-For now, accept:
-
-multiple formulas per solvent
-conflicting supplier interpretations
-
-That is correct scientifically, not an error.
-
-✔ Step 4 — only enforce strictness at hazard layer
-
-Hazards should be:
-
-consistent per formula
-versioned via reference
-
-⚠️ 4. Key design insight (this is the real “aha” point)
-
-You are not building a database of:
-
-“what solvents are”
-
-You are building:
-
-“what different sources claim solvents are, and what risks follow from each claim”
-
-That means:
-
-inconsistency is data, not noise
-ambiguity must be preserved, not removed
-🔥 5. Practical mental model going forward
-
-Think in 3 layers:
-
-🧪 Chemistry truth
-
-(formula + hazards)
-
-📦 Commercial ambiguity
-
-(solvent + solvent_formula)
-
-📚 Evidence trail
-
-(reference + observation)
-
-SOLVENT (commercial identity)
-   ↓
-SOLVENT_FORMULA (what it actually is chemically)
-   ↓
-FORMULA (true chemical identity)
-   ↓
-FORMULA_HAZARD (inherent hazards)
-   ↓
-HAZARD_CODE (H-codes + statements)
-   ↓
-HAZARD_PCODE (regulatory handling instructions)
-   ↓
-P_CODE (final safety instructions)
+- The database schema is designed to scale; eventually factors such as heat or air pressure could be factored into calculations.

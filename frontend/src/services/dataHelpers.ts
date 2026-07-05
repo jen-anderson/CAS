@@ -24,3 +24,20 @@ export const getTeasCoordinates = (d: number, p: number, h: number) => {
 
   return { x, y };
 };
+
+export const calculateHSPPercentages = (d: number, p: number, h: number) => {
+  const sum = d + p + h
+  return {
+    d: d.toFixed(2),
+    p: p.toFixed(2),
+    h: h.toFixed(2),
+    dPct: sum > 0 ? ((d / sum) * 100).toFixed(2) : "0.00",
+    pPct: sum > 0 ? ((p / sum) * 100).toFixed(2) : "0.00",
+    hPct: sum > 0 ? ((h / sum) * 100).toFixed(2) : "0.00",
+  }
+}
+
+export const getVal = (obs: any): number => {
+  if (typeof obs === 'number') return obs
+  return obs?.value ?? 0
+}

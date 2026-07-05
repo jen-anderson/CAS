@@ -12,6 +12,6 @@
     "**/tsconfig.app.json": true,
     "**/eslint.config.js": true,
     "vite.config.ts": true,
-    "**/README.md": true
+    "**/README.md": false
   }
 }

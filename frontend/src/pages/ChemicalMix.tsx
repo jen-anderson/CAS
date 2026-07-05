@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRDKit } from './../hooks/useRDKit.ts'
-import { getCanonicalObservation } from "../services/dataHelpers.ts";
+import { getCanonicalObservation, calculateHSPPercentages, getVal } from "../services/dataHelpers.ts";
 import { useChemicalMix } from "../hooks/useChemicalMix.ts";
 import { TeasChart } from "../components/TeasChart.tsx";
 
@@ -31,29 +31,35 @@ export const ChemicalMix = () => {
   if (loading) return <div>Simulating mixture...</div>;
   if (!data || !mixHSP) return <div>Error calculating mixture.</div>;
   
-  
+  const mixViewModel = mixHSP ? calculateHSPPercentages(mixHSP.d, mixHSP.p, mixHSP.h) : null;
+
+  const componentViewModel = data.map((chem) => {
+    const d = getVal(getCanonicalObservation(chem.observation, 'HANSEN_D'))
+    const p = getVal(getCanonicalObservation(chem.observation, 'HANSEN_P'))
+    const h = getVal(getCanonicalObservation(chem.observation, 'HANSEN_H'))
+    return {...chem, ...calculateHSPPercentages(d, p, h) };
+  })
+
+
   return (
     <div className="page-layout">
       <aside className="sidebar">
         <h3>Constituent Solvents</h3>
-        {data.map((chem, index) => {
+        {componentViewModel.map((chem, index) => {
           const formulaItem = chem.solvent_formula?.[0]; 
           const smiles = formulaItem?.formula?.smiles || "";
-          const d = getCanonicalObservation(chem.observation, 'HANSEN_D');
-          const p = getCanonicalObservation(chem.observation, 'HANSEN_P');
-          const h = getCanonicalObservation(chem.observation, 'HANSEN_H');
-          console.log (chem, d, p, h)
+          console.log (chem, chem.d, chem.p, chem.h)
   
           return (
             <div key={chem.solvent_id} className="component-container">
               <h4>{chem.canonical_name} ({ratios[index] * 100}%)</h4>
               <ChemicalStructure smiles={smiles} />
-              <p>δD: {d?.value ?? 'N/A'}</p>
-              <p>δP: {p?.value ?? 'N/A'}</p>
-              <p>δH: {h?.value ?? 'N/A'}</p>
+              <p>δD: {chem.d} ({chem.dPct}%)</p>
+              <p>δP: {chem.p} ({chem.pPct}%)</p>
+              <p>δH: {chem.h} ({chem.hPct}%)</p>
             </div>
           );
-        })}
+        })} 
       </aside>
 
       <main className="content">
@@ -63,15 +69,15 @@ export const ChemicalMix = () => {
         {mixHSP && (
           <section className="summary-box">
             <h2>Calculated Blend</h2>
-            <p><strong>Dispersion (δD):</strong> {mixHSP.d.toFixed(2)}</p>
-            <p><strong>Polar (δP):</strong> {mixHSP.p.toFixed(2)}</p>
-            <p><strong>Hydrogen bonds (δH):</strong> {mixHSP.h.toFixed(2)}</p>
+            <p><strong>Dispersion (δD):</strong> {mixViewModel.d} ({mixViewModel.dPct}%)</p>
+            <p><strong>Polar (δP):</strong> {mixViewModel.p} ({mixViewModel.pPct}%)</p>
+            <p><strong>Hydrogen bonds (δH):</strong> {mixViewModel.h} ({mixViewModel.hPct}%)</p>
           </section>
         )}
       </main>
 
       <div className="chart-sidebar">
-        {mixHSP && <TeasChart d={mixHSP.d} p={mixHSP.p} h={mixHSP.h} />}
+        {mixViewModel && <TeasChart d={Number(mixViewModel.dPct)} p={Number(mixViewModel.pPct)} h={Number(mixViewModel.hPct)} />}
       </div>
     </div>
   );
