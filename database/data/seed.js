@@ -1,12 +1,26 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
+import knex from 'knex';
 
 /**
  * @param {import('knex').Knex} knex
  */
+
+const db = knex({
+  client: 'pg',
+  connection: {
+    host: '127.0.0.1',
+    port: 54322,
+    user: 'postgres',
+    password: 'postgres', // This matches your CLI output
+    database: 'postgres'
+  }
+});
+
+
 export async function seed(knex) {
   // adjust path to where SQL files are stored
-  const seedFolder = path.resolve('./data');
+  const seedFolder = path.resolve('./data/seeds');
 
   const files = fs.readdirSync(seedFolder)
     .filter(f => f.endsWith('.sql'))
@@ -41,6 +55,16 @@ export async function seed(knex) {
       await knex.raw(sql);
     }
   }
-
   console.log('All seeds executed successfully!');
 }
+
+(async () => {
+  try {
+    await seed(db);
+    console.log('Seed completed!');
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await db.destroy();
+  }
+})();

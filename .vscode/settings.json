@@ -1,0 +1,17 @@
+{
+  "deno.path": "/home/untz/.deno/bin/deno",
+  "deno.enable": true,
+  "files.exclude": {
+    "**/.branches": true,
+    "**/.temp": true,
+    "**/node_modules": true,
+    "**/package-lock.json": true,
+    "**/package.json": true,
+    "**/tsconfig.json": true,
+    "**/tsconfig.node.json": true,
+    "**/tsconfig.app.json": true,
+    "**/eslint.config.js": true,
+    "vite.config.ts": true,
+    "**/README.md": false
+  }
+}

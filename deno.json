@@ -1,0 +1,23 @@
+{
+  "lint": {
+    "rules": {
+      "exclude": [
+        "no-explicit-any",
+        "ban-types",
+        "no-unused-vars"
+      ]
+    }
+  },
+
+  "tasks": {
+    "start": "deno run --allow-net=api.supabase.com --allow-env=SUPABASE_URL,SUPABASE_KEY main.ts"
+  },
+      "compilerOptions": {
+    "lib": ["deno.window", "deno.ns"]
+  },
+  
+  "imports": {
+    "@supabase/supabase-js": "jsr:@supabase/supabase-js@2"
+  }
+}
+
